@@ -14,9 +14,11 @@ class LoginPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
 
   // signin method
-  void signIn() {
-    // ignore: avoid_print
-    print(_formKey.currentState!.validate());
+  void signIn(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      Navigator.pushNamed(context, '/homepage');
+      _formKey.currentState!.reset();
+    }
   }
 
   //sign google
@@ -86,7 +88,9 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 35),
               PrimaryButton(
-                onTap: signIn,
+                onTap: () {
+                  signIn(context);
+                },
               ),
               const SizedBox(height: 25),
               Padding(
