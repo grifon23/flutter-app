@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../components/buttons/image_button.dart';
-import '../components/buttons/primary_button.dart';
-import '../components/form/text_input.dart';
+import '../../common/components/buttons/image_button.dart';
+import '../../common/components/buttons/primary_button.dart';
+import '../../common/components/form/text_input.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignInScreen extends StatelessWidget {
+  SignInScreen({super.key});
 
   final _formKey = GlobalKey<FormState>();
 
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
   // signin method
   void signIn(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, '/homepage');
+      Navigator.pushNamed(context, '/projects');
       _formKey.currentState!.reset();
     }
   }
