@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:todo_list/components/project-card/project-card.dart';
+import 'package:todo_list/service/local_storage/local_storage_service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,7 +14,10 @@ class HomePage extends StatelessWidget {
       {'id': '3', 'name': 'Joy Job'},
       {'id': '4', 'name': 'Edu System'},
     ];
+    final storage = new StorageService();
 
+    var token = storage.getItem('accessToken');
+    print(token);
     return Scaffold(
         appBar: AppBar(
           title: const Text('All projects'),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
+import '../api/auth_api.dart';
 import '../components/buttons/image_button.dart';
 import '../components/buttons/primary_button.dart';
 import '../components/form/text_input.dart';
@@ -16,15 +17,16 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
 // text input controller
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
-
+  final authService = new AuthApiService();
   // signin method
-  void signIn(BuildContext context) {
+  void signIn(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      await authService.loginReq(emailController.text, passwordController.text);
       Navigator.pushNamed(context, '/homepage');
-      _formKey.currentState!.reset();
+      // _formKey.currentState!.reset();
     }
   }
 
@@ -70,8 +72,8 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       BaseTextField(
                         validator: requreField,
-                        controller: usernameController,
-                        hintText: 'Username',
+                        controller: emailController,
+                        hintText: 'Email',
                         obscureText: false,
                       ),
                       const SizedBox(height: 10),
