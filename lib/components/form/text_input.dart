@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:validators/validators.dart';
 
 class BaseTextField extends StatelessWidget {
   // ignore: prefer_typing_uninitialized_variables
   final controller;
   final String hintText;
   final bool obscureText;
-  const BaseTextField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      required this.obscureText});
+  final String? Function(String?)? validator;
+
+  const BaseTextField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.obscureText,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +22,7 @@ class BaseTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: TextFormField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (String? value) {
-          if (value == null || value.isEmpty) {
-            return 'Field is require';
-          }
-          return null;
-        },
+        validator: validator,
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(

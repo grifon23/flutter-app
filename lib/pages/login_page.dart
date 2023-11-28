@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/validators/requre_field.dart';
 
 import '../components/buttons/image_button.dart';
 import '../components/buttons/primary_button.dart';
 import '../components/form/text_input.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
 
 // text input controller
   final TextEditingController usernameController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
 
   // signin method
@@ -32,7 +39,8 @@ class LoginPage extends StatelessWidget {
   }
 
 //register void
-  void signUp() {
+  void signUp(BuildContext context) {
+    Navigator.pushNamed(context, '/signup');
     print('signUp');
   }
 
@@ -45,12 +53,12 @@ class LoginPage extends StatelessWidget {
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(height: 35),
-              const Icon(
-                Icons.lock,
-                size: 130,
+              const SizedBox(height: 50),
+              Image.asset(
+                'lib/images/logo.png',
+                height: 100,
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 50),
               Text(
                 'Welcome back!',
                 style: TextStyle(color: Colors.grey[700], fontSize: 18),
@@ -61,12 +69,14 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       BaseTextField(
+                        validator: requreField,
                         controller: usernameController,
                         hintText: 'Username',
                         obscureText: false,
                       ),
                       const SizedBox(height: 10),
                       BaseTextField(
+                        validator: requreField,
                         controller: passwordController,
                         hintText: 'Password',
                         obscureText: true,
@@ -91,6 +101,7 @@ class LoginPage extends StatelessWidget {
                 onTap: () {
                   signIn(context);
                 },
+                texContent: 'Sign In',
               ),
               const SizedBox(height: 25),
               Padding(
@@ -146,7 +157,7 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   GestureDetector(
-                    onTap: signUp,
+                    onTap: () => signUp(context),
                     child: Text(
                       'Register now',
                       style: TextStyle(
