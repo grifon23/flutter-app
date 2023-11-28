@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/api/auth_api.dart';
+import 'package:todo_list/validators/requre_field.dart';
 
 import '../../common/components/buttons/image_button.dart';
 import '../../common/components/buttons/primary_button.dart';
 import '../../common/components/form/text_input.dart';
 
-class SignInScreen extends StatelessWidget {
-  SignInScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
+  @override
+  State<SignInScreen> createState() => SignInScreenState();
+}
+
+class SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
 // text input controller
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
+  final TextEditingController passwordController = TextEditingController();
+  final authService = AuthApiService();
   // signin method
-  void signIn(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
-      Navigator.pushNamed(context, '/projects');
-      _formKey.currentState!.reset();
-    }
+  void signIn(BuildContext context) async {
+    try {
+      if (_formKey.currentState!.validate()) {
+        await authService.loginReq(
+            emailController.text, passwordController.text);
+        _formKey.currentState!.reset();
+        Navigator.pushNamed(context, '/home');
+      }
+    } catch (e) {}
   }
 
   //sign google
@@ -32,7 +44,8 @@ class SignInScreen extends StatelessWidget {
   }
 
 //register void
-  void signUp() {
+  void signUp(BuildContext context) {
+    Navigator.pushNamed(context, '/signUp');
     print('signUp');
   }
 
@@ -45,12 +58,12 @@ class SignInScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              const SizedBox(height: 35),
-              const Icon(
-                Icons.lock,
-                size: 130,
+              const SizedBox(height: 50),
+              Image.asset(
+                'lib/images/logo.png',
+                height: 100,
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 50),
               Text(
                 'Welcome back!',
                 style: TextStyle(color: Colors.grey[700], fontSize: 18),
@@ -61,12 +74,14 @@ class SignInScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       BaseTextField(
-                        controller: usernameController,
-                        hintText: 'Username',
+                        validator: requreField,
+                        controller: emailController,
+                        hintText: 'Email',
                         obscureText: false,
                       ),
                       const SizedBox(height: 10),
                       BaseTextField(
+                        validator: requreField,
                         controller: passwordController,
                         hintText: 'Password',
                         obscureText: true,
@@ -91,6 +106,7 @@ class SignInScreen extends StatelessWidget {
                 onTap: () {
                   signIn(context);
                 },
+                texContent: 'Sign In',
               ),
               const SizedBox(height: 25),
               Padding(
@@ -146,7 +162,7 @@ class SignInScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 5),
                   GestureDetector(
-                    onTap: signUp,
+                    onTap: () => signUp(context),
                     child: Text(
                       'Register now',
                       style: TextStyle(

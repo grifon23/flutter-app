@@ -36,6 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_nav_bar: ^5.0.6
   page_transition: ^2.0.2
+  calendar_date_picker2: ^0.5.3
+  intl: ^0.17.0
+  validators: ^3.0.0
+  http: ^1.1.2
+  provider: ^6.1.1
+  shared_preferences: ^2.2.2
+  localstorage: ^4.0.1+4
 
 dev_dependencies:
   flutter_test:
