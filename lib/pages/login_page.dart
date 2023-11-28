@@ -23,11 +23,14 @@ class _LoginPageState extends State<LoginPage> {
   final authService = new AuthApiService();
   // signin method
   void signIn(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
-      await authService.loginReq(emailController.text, passwordController.text);
-      Navigator.pushNamed(context, '/homepage');
-      // _formKey.currentState!.reset();
-    }
+    try {
+      if (_formKey.currentState!.validate()) {
+        await authService.loginReq(
+            emailController.text, passwordController.text);
+        _formKey.currentState!.reset();
+        Navigator.pushNamed(context, '/homepage');
+      }
+    } catch (e) {}
   }
 
   //sign google
