@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/pages/project-detail.screen.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:todo_list/projects/screens/project-detail.screen.dart';
 
 class ProjectCard extends StatelessWidget {
   final String projectName;
@@ -19,13 +20,14 @@ class ProjectCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Card(
         child: InkWell(
-          splashColor: Color.fromARGB(255, 255, 255, 227),
+          splashColor: const Color.fromARGB(255, 255, 255, 227),
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    ProjectDetailScreen(projectId: id, name: projectName),
+              PageTransition(
+                child: ProjectDetailScreen(projectId: id, name: projectName),
+                type: PageTransitionType.theme,
+                duration: const Duration(milliseconds: 700),
               ),
             );
           },

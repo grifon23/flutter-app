@@ -1,12 +1,9 @@
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_list/components/form/text_input.dart';
+import 'package:todo_list/common/components/buttons/primary_button.dart';
+import 'package:todo_list/common/components/form/calendar_text_field.dart';
+import 'package:todo_list/common/components/form/text_input.dart';
 import 'package:todo_list/validators/requre_field.dart';
-import 'package:validators/validators.dart';
-
-import '../components/buttons/primary_button.dart';
-import '../components/form/calendar_text_field.dart';
 
 extension Data on Map<String, TextEditingController> {
   Map<String, dynamic> data() {
@@ -18,14 +15,14 @@ extension Data on Map<String, TextEditingController> {
   }
 }
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
 // text input controller

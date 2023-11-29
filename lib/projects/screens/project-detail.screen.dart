@@ -8,10 +8,12 @@ class ProjectDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(name!),
-        ),
-        body: Center(child: Text('Project id: $projectId')));
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(name!),
+          ),
+          body: Center(child: Text('Project id: $projectId'))),
+    );
   }
 }

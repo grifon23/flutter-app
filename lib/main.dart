@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/pages/home-page.dart';
-import 'package:todo_list/pages/login_page.dart';
-import 'package:todo_list/pages/project-detail.screen.dart';
-import 'package:todo_list/pages/sign_up.page.dart';
+import 'package:todo_list/auth/screens/sign-in.screen.dart';
+import 'package:todo_list/auth/screens/sign_up.screen.dart';
+import 'package:todo_list/projects/screens/projects.screen.dart';
+import 'package:todo_list/projects/screens/project-detail.screen.dart';
+import 'package:todo_list/root/screens/home.screen.dart';
+import 'package:todo_list/settings/screens/settings.screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,11 +21,14 @@ class MyApp extends StatelessWidget {
             primary: Colors.grey.shade900, secondary: Colors.blue.shade500),
       ),
       title: 'Flutter Demo',
+      home: SignInScreen(),
       routes: {
-        '/': (context) => LoginPage(),
-        '/signup': (context) => SignUpPage(),
-        '/homepage': (context) => const HomePage(),
+        '/home': (context) => HomeScreen(),
+        '/projects': (context) => const ProjectsScreen(),
+        '/signIn': (context) => SignInScreen(),
+        '/signUp': (context) => SignUpScreen(),
         '/project-detail': (context) => ProjectDetailScreen(),
+        '/settings': (context) => SettingsScreen(),
       },
     );
   }

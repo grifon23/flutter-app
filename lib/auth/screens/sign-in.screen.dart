@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/api/auth_api.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
-import '../api/auth_api.dart';
-import '../components/buttons/image_button.dart';
-import '../components/buttons/primary_button.dart';
-import '../components/form/text_input.dart';
+import '../../common/components/buttons/image_button.dart';
+import '../../common/components/buttons/primary_button.dart';
+import '../../common/components/form/text_input.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignInScreen> createState() => SignInScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
 
 // text input controller
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
-  final authService = new AuthApiService();
+  final authService = AuthApiService();
   // signin method
   void signIn(BuildContext context) async {
     try {
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         await authService.loginReq(
             emailController.text, passwordController.text);
         _formKey.currentState!.reset();
-        Navigator.pushNamed(context, '/homepage');
+        Navigator.pushNamed(context, '/home');
       }
     } catch (e) {}
   }
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
 
 //register void
   void signUp(BuildContext context) {
-    Navigator.pushNamed(context, '/signup');
+    Navigator.pushNamed(context, '/signUp');
     print('signUp');
   }
 
