@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_list/common/components/buttons/primary_button.dart';
 import 'package:todo_list/common/components/form/calendar_text_field.dart';
 import 'package:todo_list/common/components/form/select_field.dart';
+import 'package:todo_list/common/components/form/tags_controll.dart';
 import 'package:todo_list/common/components/form/text_input.dart';
 import 'package:todo_list/user/config/user_positions.dart';
 import 'package:todo_list/validators/requre_field.dart';
@@ -28,6 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final UserPositionsList userPositions = UserPositionsList();
+  final List<String> technology = [];
 
 // text input controller
 
@@ -41,11 +43,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'positions': TextEditingController()
   };
 
+  late bool isError;
   void signUp() {
+    setState(() {
+      if (technology.length == 0) {
+        isError = true;
+      } else {
+        isError = false;
+      }
+    });
     if (_formKey.currentState!.validate()) {
       final data = sigUpController.data();
       // _formKey.currentState?.reset();
       print(data);
+      print(isError);
     }
   }
 
@@ -54,6 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     sigUpController['cooperationDate']?.text =
         ""; //set the initial value of text field
     sigUpController['birthday']?.text = '';
+    isError = false;
     super.initState();
   }
 
@@ -162,10 +174,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: 'Select position',
                       controller: sigUpController['positions'],
                     ),
+                    const SizedBox(height: 10),
+                    TagsControll(
+                      isError: isError,
+                      tags: technology,
+                      validator: requreField,
+                      hintText: 'Enter your technology',
+                    ),
+                    const SizedBox(height: 10),
                     PrimaryButton(
                       onTap: signUp,
                       texContent: 'Register',
-                    )
+                    ),
                   ],
                 )),
           ],
