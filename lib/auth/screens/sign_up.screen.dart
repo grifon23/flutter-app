@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/common/components/buttons/primary_button.dart';
 import 'package:todo_list/common/components/form/calendar_text_field.dart';
+import 'package:todo_list/common/components/form/select_field.dart';
 import 'package:todo_list/common/components/form/text_input.dart';
+import 'package:todo_list/user/config/user_positions.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
 extension Data on Map<String, TextEditingController> {
@@ -25,6 +27,8 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  final UserPositionsList userPositions = UserPositionsList();
+
 // text input controller
 
   final Map<String, TextEditingController> sigUpController = {
@@ -33,13 +37,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'email': TextEditingController(),
     'password': TextEditingController(),
     "birthday": TextEditingController(),
-    'cooperationDate': TextEditingController()
+    'cooperationDate': TextEditingController(),
+    'positions': TextEditingController()
   };
 
   void signUp() {
     if (_formKey.currentState!.validate()) {
       final data = sigUpController.data();
-      _formKey.currentState?.reset();
+      // _formKey.currentState?.reset();
       print(data);
     }
   }
@@ -150,7 +155,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         } else {}
                       },
                     ),
-                    const SizedBox(height: 35),
+                    const SizedBox(height: 10),
+                    SelectControll(
+                      options: userPositions.options,
+                      validator: requreField,
+                      hintText: 'Select position',
+                      controller: sigUpController['positions'],
+                    ),
                     PrimaryButton(
                       onTap: signUp,
                       texContent: 'Register',

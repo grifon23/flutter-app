@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:todo_list/config/access_config.dart';
 import 'package:http/http.dart' as http;
-
-import '../service/local_storage/local_storage_service.dart';
+import 'package:todo_list/service/local_storage/local_storage_service.dart';
 
 class AuthApiService {
   Future loginReq(String email, String password) async {

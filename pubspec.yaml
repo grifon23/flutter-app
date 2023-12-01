@@ -43,6 +43,8 @@ dependencies:
   provider: ^6.1.1
   shared_preferences: ^2.2.2
   localstorage: ^4.0.1+4
+  dropdown_button2: ^2.3.9
+  material_tag_editor: ^0.1.2
 
 dev_dependencies:
   flutter_test:
