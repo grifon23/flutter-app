@@ -3,8 +3,8 @@ import 'package:localstorage/localstorage.dart';
 class StorageService {
   final LocalStorage storage = LocalStorage('storage');
 
-  void saveItem(String key, String value) {
-    storage.setItem(key, value);
+  Future saveItem(String key, String value) async {
+    return await storage.setItem(key, value);
   }
 
   getItem(String key) {
