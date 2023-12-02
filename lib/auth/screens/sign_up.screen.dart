@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_list/auth/api/auth_api.dart';
 import 'package:todo_list/common/components/buttons/primary_button.dart';
 import 'package:todo_list/common/components/form/calendar_text_field.dart';
+import 'package:todo_list/common/components/form/select_field.dart';
+import 'package:todo_list/common/components/form/tags_controll.dart';
 import 'package:todo_list/common/components/form/text_input.dart';
+import 'package:todo_list/user/config/user_positions.dart';
 import 'package:todo_list/validators/requre_field.dart';
-
-extension Data on Map<String, TextEditingController> {
-  Map<String, dynamic> data() {
-    final res = <String, dynamic>{};
-    for (MapEntry<String, TextEditingController> entry in entries) {
-      res.putIfAbsent(entry.key, () => entry.value?.text);
-    }
-    return res;
-  }
-}
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -25,22 +19,45 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  final UserPositionsList userPositions = UserPositionsList();
+  final List<String> technology = [];
+
 // text input controller
 
   final Map<String, TextEditingController> sigUpController = {
-    'firstName': TextEditingController(),
+    'name': TextEditingController(),
     'lastName': TextEditingController(),
     'email': TextEditingController(),
     'password': TextEditingController(),
-    "birthday": TextEditingController(),
-    'cooperationDate': TextEditingController()
+    "birthDate": TextEditingController(),
+    'cooperationStartDate': TextEditingController(),
+    'positions': TextEditingController()
   };
+  final authService = AuthApiService();
 
-  void signUp() {
+  late bool isError;
+  void signUp() async {
+    setState(() {
+      if (technology.length == 0) {
+        isError = true;
+      } else {
+        isError = false;
+      }
+    });
     if (_formKey.currentState!.validate()) {
-      final data = sigUpController.data();
-      _formKey.currentState?.reset();
-      print(data);
+      Map<String, dynamic> payload = {
+        'technologies': technology,
+        'cooperationStartDate': sigUpController['cooperationStartDate']!.text,
+        'positions': [sigUpController['positions']!.text],
+        'deviceName': 'm',
+        'email': sigUpController['email']!.text,
+        'name': sigUpController['name']!.text,
+        'lastName': sigUpController['lastName']!.text,
+        'password': sigUpController['password']!.text,
+        'birthDate': sigUpController['birthDate']!.text
+      };
+      await authService.signUpReq(payload);
+      print(isError);
     }
   }
 
@@ -49,6 +66,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     sigUpController['cooperationDate']?.text =
         ""; //set the initial value of text field
     sigUpController['birthday']?.text = '';
+    isError = false;
+
     super.initState();
   }
 
@@ -82,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   children: [
                     BaseTextField(
                         validator: requreField,
-                        controller: sigUpController['firstName'],
+                        controller: sigUpController['name'],
                         hintText: 'First name',
                         obscureText: false),
                     const SizedBox(height: 10),
@@ -107,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     CalendarTextField(
                       validator: requreField,
                       hintText: 'Birthday',
-                      controller: sigUpController['birthday'],
+                      controller: sigUpController['birthDate'],
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
@@ -121,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           String formattedDate =
                               DateFormat('dd/MM/yyyy').format(pickedDate);
                           setState(() {
-                            sigUpController['birthday']?.text = formattedDate;
+                            sigUpController['birthDate']?.text = formattedDate;
                           });
                         } else {}
                       },
@@ -130,7 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     CalendarTextField(
                       validator: requreField,
                       hintText: 'Date of start cooperation',
-                      controller: sigUpController['cooperationDate'],
+                      controller: sigUpController['cooperationStartDate'],
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
                           initialEntryMode: DatePickerEntryMode.calendarOnly,
@@ -144,17 +163,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           String formattedDate =
                               DateFormat('dd/MM/yyyy').format(pickedDate);
                           setState(() {
-                            sigUpController['cooperationDate']?.text =
+                            sigUpController['cooperationStartDate']?.text =
                                 formattedDate;
                           });
                         } else {}
                       },
                     ),
-                    const SizedBox(height: 35),
+                    const SizedBox(height: 10),
+                    SelectControll(
+                      options: userPositions.options,
+                      validator: requreField,
+                      hintText: 'Select position',
+                      controller: sigUpController['positions'],
+                    ),
+                    const SizedBox(height: 10),
+                    TagsControll(
+                      isError: isError,
+                      tags: technology,
+                      validator: requreField,
+                      hintText: 'Enter your technology',
+                    ),
+                    const SizedBox(height: 10),
                     PrimaryButton(
                       onTap: signUp,
                       texContent: 'Register',
-                    )
+                    ),
                   ],
                 )),
           ],

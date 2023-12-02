@@ -7,7 +7,7 @@ class StorageService {
     storage.setItem(key, value);
   }
 
-  String getItem(String key) {
+  getItem(String key) {
     return storage.getItem(key);
   }
 
