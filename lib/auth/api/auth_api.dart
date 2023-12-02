@@ -19,4 +19,21 @@ class AuthApiService {
       storage.saveItem('accessToken', dataJson['accessToken']);
     }
   }
+
+  Future signUpReq(Map<String, dynamic> payload) async {
+    const url = "$BASE_URL/auth/register";
+    final uri = Uri.parse(url);
+    print(payload);
+    final response = await http.post(
+      uri,
+      headers: {"Content-Type": "application/json; charset=UTF-8"},
+      body: jsonEncode(payload),
+    );
+
+    if (response.statusCode == 201) {
+      final storage = StorageService();
+      var dataJson = jsonDecode(response.body);
+      storage.saveItem('accessToken', dataJson['accessToken']);
+    }
+  }
 }
