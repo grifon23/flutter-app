@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:todo_list/projects/screens/project-detail.screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_list/root/navigation/routes-names.dart';
+import 'package:todo_list/service/local_storage/local_storage_service.dart';
 
 class ProjectCard extends StatelessWidget {
   final String projectName;
@@ -22,14 +23,9 @@ class ProjectCard extends StatelessWidget {
         child: InkWell(
           splashColor: const Color.fromARGB(255, 255, 255, 227),
           onTap: () {
-            Navigator.push(
-              context,
-              PageTransition(
-                child: ProjectDetailScreen(projectId: id, name: projectName),
-                type: PageTransitionType.theme,
-                duration: const Duration(milliseconds: 700),
-              ),
-            );
+            context.pushNamed(UserStack.ProjectDetail,
+                pathParameters: {"id": id},
+                queryParameters: {'projectName': projectName});
           },
           child: SizedBox(
               height: 100,
@@ -67,19 +63,5 @@ class ProjectCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
-
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
-
-class _MyWidgetState extends State<MyWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

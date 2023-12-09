@@ -17,6 +17,7 @@ class AuthApiService {
       final storage = StorageService();
       var dataJson = jsonDecode(response.body);
       storage.saveItem('accessToken', dataJson['accessToken']);
+      return dataJson['accessToken'];
     }
   }
 

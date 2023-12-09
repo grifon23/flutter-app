@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/providers/token.provider.dart';
+
+import 'package:todo_list/service/local_storage/local_storage_service.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
 import '../../common/components/buttons/image_button.dart';
@@ -7,7 +11,7 @@ import '../../common/components/form/text_input.dart';
 import '../api/auth_api.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
 
   @override
   State<SignInScreen> createState() => SignInScreenState();
@@ -22,17 +26,23 @@ class SignInScreenState extends State<SignInScreen> {
   final TextEditingController passwordController = TextEditingController();
   final authService = AuthApiService();
   // signin method
-  void signIn(BuildContext context) async {
+  Future signIn(BuildContext context) async {
     try {
       if (_formKey.currentState!.validate()) {
-        await authService.loginReq(
+        var newToken = await authService.loginReq(
             emailController.text, passwordController.text);
-        _formKey.currentState!.reset();
-        Navigator.pushNamed(context, '/home');
+
+        if (newToken != null) {
+          context.read<TokenProvider>().setIsToken(newToken);
+          await StorageService().saveItem('accessToken', newToken);
+        }
+
+        return _formKey.currentState!.reset();
       }
     } catch (e) {}
   }
 
+//
   //sign google
   void signInGoogle() {
     print('signInGoogle');
