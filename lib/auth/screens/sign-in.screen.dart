@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:todo_list/auth/service/auth_service.dart';
+import 'package:todo_list/service/request/request_service.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
 import '../../common/components/buttons/image_button.dart';
 import '../../common/components/buttons/primary_button.dart';
 import '../../common/components/form/text_input.dart';
 import '../../service/local_storage/local_storage_service.dart';
-import '../api/auth_api.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -22,19 +22,14 @@ class SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
-  final authService = AuthApiService();
-  // signin method
   final storage = StorageService();
-
-  void signIn(BuildContext context) async {
+  final AuthService authService = AuthService();
+  void signIn() async {
     try {
-      if (_formKey.currentState!.validate()) {
-        await authService.loginReq(
-            emailController.text, passwordController.text);
-        _formKey.currentState!.reset();
-        Navigator.pushNamed(context, '/home');
-      }
-    } catch (e) {}
+      await authService.login(emailController.text, passwordController.text);
+    } catch (e) {
+      print('Error in sign in: ${(e as DioErrorWrapper).errorMessage}');
+    }
   }
 
   //sign google
@@ -107,8 +102,12 @@ class SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 35),
               PrimaryButton(
-                onTap: () {
-                  signIn(context);
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    signIn();
+                    _formKey.currentState!.reset();
+                    // Navigator.pushNamed(context, '/home');
+                  }
                 },
                 texContent: 'Sign In',
               ),
