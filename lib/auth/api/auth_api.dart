@@ -1,40 +1,24 @@
-import 'dart:convert';
+import 'package:todo_list/service/request/request_service.dart';
 
-import 'package:todo_list/config/access_config.dart';
-import 'package:http/http.dart' as http;
-import 'package:todo_list/service/local_storage/local_storage_service.dart';
+class Session {
+  String refreshToken;
+  String accessToken;
 
-class AuthApiService {
+  Session({
+    required this.refreshToken,
+    required this.accessToken,
+  });
+}
+
+class AuthApi {
+  RequestsService api = RequestsService();
+
   Future loginReq(String email, String password) async {
-    const url = "$BASE_URL/auth/login";
-    final uri = Uri.parse(url);
-
-    final response = await http.post(uri,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(
-            {"email": email, "password": password, "deviceName": "m"}));
-    if (response.statusCode == 201) {
-      final storage = StorageService();
-      var dataJson = jsonDecode(response.body);
-      storage.saveItem('accessToken', dataJson['accessToken']);
-      return dataJson['accessToken'];
-    }
+    return api.post('/auth/login',
+        data: {'email': email, 'password': password, 'deviceName': 'm'});
   }
 
   Future signUpReq(Map<String, dynamic> payload) async {
-    const url = "$BASE_URL/auth/register";
-    final uri = Uri.parse(url);
-    print(payload);
-    final response = await http.post(
-      uri,
-      headers: {"Content-Type": "application/json; charset=UTF-8"},
-      body: jsonEncode(payload),
-    );
-
-    if (response.statusCode == 201) {
-      final storage = StorageService();
-      var dataJson = jsonDecode(response.body);
-      storage.saveItem('accessToken', dataJson['accessToken']);
-    }
+    return api.post('/auth/register', data: payload);
   }
 }

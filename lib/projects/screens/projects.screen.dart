@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/projects/components/project-card.dart';
+import 'package:todo_list/service/local_storage/local_storage_service.dart';
 
 class ProjectsScreen extends StatelessWidget {
   const ProjectsScreen({super.key});
@@ -12,7 +13,9 @@ class ProjectsScreen extends StatelessWidget {
       {'id': '3', 'name': 'Joy Job'},
       {'id': '4', 'name': 'Edu System'},
     ];
-
+    final storage = StorageService();
+    var refresfToken = storage.getItem('refreshToken');
+    print(refresfToken);
     return SafeArea(
       child: Scaffold(
           body: ListView.builder(

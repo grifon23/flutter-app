@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list/auth/api/auth_api.dart';
+import 'package:todo_list/auth/service/auth_service.dart';
 import 'package:todo_list/common/components/buttons/primary_button.dart';
 import 'package:todo_list/common/components/form/calendar_text_field.dart';
 import 'package:todo_list/common/components/form/select_field.dart';
 import 'package:todo_list/common/components/form/tags_controll.dart';
 import 'package:todo_list/common/components/form/text_input.dart';
+import 'package:todo_list/providers/token.provider.dart';
 import 'package:todo_list/user/config/user_positions.dart';
 import 'package:todo_list/validators/requre_field.dart';
+
+import '../../service/request/request_service.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -33,18 +38,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'cooperationStartDate': TextEditingController(),
     'positions': TextEditingController()
   };
-  final authService = AuthApiService();
+  final AuthService authService = AuthService();
 
   late bool isError;
   void signUp() async {
-    setState(() {
-      if (technology.length == 0) {
-        isError = true;
-      } else {
-        isError = false;
-      }
-    });
-    if (_formKey.currentState!.validate()) {
+    try {
       Map<String, dynamic> payload = {
         'technologies': technology,
         'cooperationStartDate': sigUpController['cooperationStartDate']!.text,
@@ -56,9 +54,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'password': sigUpController['password']!.text,
         'birthDate': sigUpController['birthDate']!.text
       };
-      await authService.signUpReq(payload);
-      print(isError);
+      var resp = await authService.signUp(payload);
+      context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
+    } catch (e) {
+      print('Error in sign up: ${(e as DioErrorWrapper).errorMessage}');
     }
+    print(isError);
   }
 
   @override
@@ -185,7 +186,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 10),
                     PrimaryButton(
-                      onTap: signUp,
+                      onTap: () {
+                        setState(() {
+                          if (technology.isEmpty) {
+                            isError = true;
+                          } else {
+                            isError = false;
+                          }
+                        });
+                        if (_formKey.currentState!.validate()) {
+                          signUp();
+                          _formKey.currentState!.reset();
+                          //  Navigator.pushNamed(context, '/home');
+                        }
+                      },
                       texContent: 'Register',
                     ),
                   ],

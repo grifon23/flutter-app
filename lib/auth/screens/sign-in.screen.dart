@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_list/auth/service/auth_service.dart';
 import 'package:todo_list/providers/token.provider.dart';
-
-import 'package:todo_list/service/local_storage/local_storage_service.dart';
+import 'package:todo_list/service/request/request_service.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
 import '../../common/components/buttons/image_button.dart';
 import '../../common/components/buttons/primary_button.dart';
 import '../../common/components/form/text_input.dart';
-import '../api/auth_api.dart';
+import '../../service/local_storage/local_storage_service.dart';
 
 class SignInScreen extends StatefulWidget {
   SignInScreen({super.key});
@@ -24,25 +24,18 @@ class SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
-  final authService = AuthApiService();
-  // signin method
-  Future signIn(BuildContext context) async {
+  final storage = StorageService();
+  final AuthService authService = AuthService();
+  void signIn(BuildContext context) async {
     try {
-      if (_formKey.currentState!.validate()) {
-        var newToken = await authService.loginReq(
-            emailController.text, passwordController.text);
-
-        if (newToken != null) {
-          context.read<TokenProvider>().setIsToken(newToken);
-          await StorageService().saveItem('accessToken', newToken);
-        }
-
-        return _formKey.currentState!.reset();
-      }
-    } catch (e) {}
+      var resp = await authService.login(
+          emailController.text, passwordController.text);
+      context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
+    } catch (e) {
+      print('Error in sign in: ${(e as DioErrorWrapper).errorMessage}');
+    }
   }
 
-//
   //sign google
   void signInGoogle() {
     print('signInGoogle');
@@ -113,8 +106,12 @@ class SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 35),
               PrimaryButton(
-                onTap: () {
-                  signIn(context);
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    signIn(context);
+                    _formKey.currentState!.reset();
+                    // Navigator.pushNamed(context, '/home');
+                  }
                 },
                 texContent: 'Sign In',
               ),
