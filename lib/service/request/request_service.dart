@@ -66,9 +66,46 @@ class RequestsService {
     }
   }
 
+  Future<Response> put(String path,
+      {required Map<String, dynamic> data}) async {
+    try {
+      Response response = await dio.put(
+        path,
+        data: data,
+      );
+      return response;
+    } catch (e) {
+      throw DioErrorWrapper(e);
+    }
+  }
+
+  Future<Response> patch(String path,
+      {required Map<String, dynamic> data}) async {
+    try {
+      Response response = await dio.put(
+        path,
+        data: data,
+      );
+      return response;
+    } catch (e) {
+      throw DioErrorWrapper(e);
+    }
+  }
+
+  Future<Response> delete(String path, String id) async {
+    try {
+      Response response = await dio.delete(
+        '$path/$id',
+      );
+      return response;
+    } catch (e) {
+      throw DioErrorWrapper(e);
+    }
+  }
+
   Future getSession() async {
     try {
-      var refreshToken = storage.getItem('refreshToken');
+      var refreshToken = await storage.getItem('refreshToken');
 
       Response resp = await dio.post(
         '/auth/refresh-token',

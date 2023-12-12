@@ -7,6 +7,7 @@ class AuthService {
 
   Future login(String email, String password) async {
     var response = await authApi.loginReq(email, password);
+
     await saveSession(Session(
         refreshToken: response.data['refreshToken'],
         accessToken: response.data['accessToken']));

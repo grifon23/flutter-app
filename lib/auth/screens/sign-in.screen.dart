@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list/auth/service/auth_service.dart';
+import 'package:todo_list/providers/token.provider.dart';
 import 'package:todo_list/service/request/request_service.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
@@ -9,7 +11,7 @@ import '../../common/components/form/text_input.dart';
 import '../../service/local_storage/local_storage_service.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
 
   @override
   State<SignInScreen> createState() => SignInScreenState();
@@ -24,9 +26,11 @@ class SignInScreenState extends State<SignInScreen> {
   final TextEditingController passwordController = TextEditingController();
   final storage = StorageService();
   final AuthService authService = AuthService();
-  void signIn() async {
+  void signIn(BuildContext context) async {
     try {
-      await authService.login(emailController.text, passwordController.text);
+      var resp = await authService.login(
+          emailController.text, passwordController.text);
+      context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
     } catch (e) {
       print('Error in sign in: ${(e as DioErrorWrapper).errorMessage}');
     }
@@ -104,7 +108,7 @@ class SignInScreenState extends State<SignInScreen> {
               PrimaryButton(
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
-                    signIn();
+                    signIn(context);
                     _formKey.currentState!.reset();
                     // Navigator.pushNamed(context, '/home');
                   }
