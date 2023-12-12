@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list/auth/api/auth_api.dart';
 import 'package:todo_list/auth/service/auth_service.dart';
 import 'package:todo_list/common/components/buttons/primary_button.dart';
@@ -7,6 +8,7 @@ import 'package:todo_list/common/components/form/calendar_text_field.dart';
 import 'package:todo_list/common/components/form/select_field.dart';
 import 'package:todo_list/common/components/form/tags_controll.dart';
 import 'package:todo_list/common/components/form/text_input.dart';
+import 'package:todo_list/providers/token.provider.dart';
 import 'package:todo_list/user/config/user_positions.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
@@ -52,7 +54,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'password': sigUpController['password']!.text,
         'birthDate': sigUpController['birthDate']!.text
       };
-      await authService.signUp(payload);
+      var resp = await authService.signUp(payload);
+      context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
     } catch (e) {
       print('Error in sign up: ${(e as DioErrorWrapper).errorMessage}');
     }
