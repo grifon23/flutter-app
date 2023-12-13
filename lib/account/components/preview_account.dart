@@ -39,13 +39,13 @@ class PreviewAccount extends StatelessWidget {
         height: 20,
       ),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           Row(
             children: [
               const Text('Position: '),
               Text(
-                Positions.positionsLabel[user.positions?[0]]!,
+                Positions.positionsLabel[user.positions?[0]] ?? 'unknow',
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w500,
@@ -74,7 +74,7 @@ class PreviewAccount extends StatelessWidget {
           Row(
             children: [
               const Text('Account type: '),
-              Text(UserRoles.rolesLabel[user.role!]!,
+              Text(UserRoles.rolesLabel[user.role!] ?? 'unknow',
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,
@@ -87,20 +87,7 @@ class PreviewAccount extends StatelessWidget {
           Row(
             children: [
               const Text('Date of birth: '),
-              Text(user.birthDate!,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                  )),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: [
-              const Text('Date of birth: '),
-              Text(user.birthDate!,
+              Text(user.birthDate ?? '00/00/0000',
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,
@@ -113,7 +100,7 @@ class PreviewAccount extends StatelessWidget {
           Row(
             children: [
               const Text('Start of cooperation: '),
-              Text(user.cooperationStartDate!,
+              Text(user.cooperationStartDate ?? '00/00/0000',
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.w500,
@@ -129,12 +116,14 @@ class PreviewAccount extends StatelessWidget {
               const Text('Technologies: '),
               ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 260.0),
-                child: Wrap(
-                  children: [
-                    if (user.technologies != null)
-                      ...user.technologies!.map((it) => BaseTag(tag: it))
-                  ],
-                ),
+                child: (user.technologies != null)
+                    ? Wrap(
+                        children: [
+                          if (user.technologies != null)
+                            ...user.technologies!.map((it) => BaseTag(tag: it))
+                        ],
+                      )
+                    : Text('none technologies'),
               )
             ],
           ),
