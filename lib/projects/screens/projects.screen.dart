@@ -15,7 +15,6 @@ class ProjectsScreen extends StatelessWidget {
     ];
     final storage = StorageService();
     var refresfToken = storage.getItem('refreshToken');
-    print(refresfToken);
     return SafeArea(
       child: Scaffold(
           body: ListView.builder(
