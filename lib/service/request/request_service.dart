@@ -24,15 +24,11 @@ class RequestsService {
         },
         onError: (DioException e, handler) async {
           if (e.response?.statusCode == 401) {
-            Response<Session> resp = await getSession();
-
-            await saveSession(Session(
-                refreshToken: resp.data!.refreshToken,
-                accessToken: resp.data!.accessToken));
+            var resp = await getSession();
+            await saveSession(resp);
 
             e.requestOptions.headers['Authorization'] =
-                'Bearer ${resp.data!.accessToken}';
-
+                'Bearer ${resp.accessToken}';
             return handler.resolve(await dio.fetch(e.requestOptions));
           }
           return handler.next(e);
@@ -103,19 +99,21 @@ class RequestsService {
     }
   }
 
-  Future getSession() async {
+  Future<Session> getSession() async {
     try {
       var refreshToken = await storage.getItem('refreshToken');
 
-      Response resp = await dio.post(
+      var resp = await dio.post(
         '/auth/refresh-token',
         data: {'refreshToken': refreshToken},
       );
-
-      print('refresh session $resp');
-      return resp.data['accessToken'];
+      final Session session = Session(
+          refreshToken: resp.data['refreshToken'],
+          accessToken: resp.data['accessToken']);
+      return session;
     } on DioException catch (e) {
-      print(e.message);
+      print('Error during getSession: ${e.message}');
+      throw DioErrorWrapper(e);
     }
   }
 
