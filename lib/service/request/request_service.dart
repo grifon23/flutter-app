@@ -45,6 +45,7 @@ class RequestsService {
       );
       return response;
     } catch (e) {
+      print('error in get $e');
       throw DioErrorWrapper(e);
     }
   }
