@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/auth/service/auth_service.dart';
 import 'package:todo_list/providers/token.provider.dart';
+import 'package:todo_list/root/navigation/routes_names.dart';
 import 'package:todo_list/service/request/request_service.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
@@ -26,15 +28,6 @@ class SignInScreenState extends State<SignInScreen> {
   final TextEditingController passwordController = TextEditingController();
   final storage = StorageService();
   final AuthService authService = AuthService();
-  void signIn(BuildContext context) async {
-    try {
-      var resp = await authService.login(
-          emailController.text, passwordController.text);
-      context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
-    } catch (e) {
-      print('Error in sign in: ${(e as DioErrorWrapper).errorMessage}');
-    }
-  }
 
   //sign google
   void signInGoogle() {
@@ -48,12 +41,22 @@ class SignInScreenState extends State<SignInScreen> {
 
 //register void
   void signUp(BuildContext context) {
-    Navigator.pushNamed(context, '/signUp');
+    context.pushNamed(AuthStack.SignUp);
     print('signUp');
   }
 
   @override
   Widget build(BuildContext context) {
+    void signIn() async {
+      try {
+        var resp = await authService.login(
+            emailController.text, passwordController.text);
+        context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
+      } catch (e) {
+        print('Error in sign in: ${(e as DioErrorWrapper).errorMessage}');
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -108,9 +111,7 @@ class SignInScreenState extends State<SignInScreen> {
               PrimaryButton(
                 onTap: () async {
                   if (_formKey.currentState!.validate()) {
-                    signIn(context);
-                    _formKey.currentState!.reset();
-                    // Navigator.pushNamed(context, '/home');
+                    signIn();
                   }
                 },
                 texContent: 'Sign In',

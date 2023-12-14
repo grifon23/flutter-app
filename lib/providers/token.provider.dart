@@ -10,7 +10,7 @@ class TokenProvider extends ChangeNotifier {
     token = newToken;
     notifyListeners();
   }
-
+  
   Future logout() async {
     await StorageService().removeItem('accessToken');
     token = null;
