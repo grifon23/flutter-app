@@ -35,6 +35,12 @@ class _TagsControllState extends State<TagsControll> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _values = widget.tags;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),

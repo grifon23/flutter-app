@@ -30,7 +30,20 @@ class _AccountScreenState extends State<AccountScreen> {
       builder: (context, state) {
         if (state is AccountLoaded) {
           return SafeArea(
-            child: PreviewAccount(user: state.user),
+            child: Stack(
+              children: [
+                PreviewAccount(user: state.user),
+                Positioned(
+                  right: 0,
+                  child: IconButton(
+                    icon: const Icon(Icons.edit_outlined),
+                    onPressed: () {
+                      print('press');
+                    },
+                  ),
+                ),
+              ],
+            ),
           );
         }
         if (state is AccountLoadingFailure) {
