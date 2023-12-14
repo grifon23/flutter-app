@@ -37,7 +37,6 @@ class UserModel {
       'role': role,
       'positions': positions,
       'technologies': technologies,
-      'userProjects': userProjects,
     };
   }
 }

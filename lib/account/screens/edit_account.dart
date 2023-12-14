@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_list/account/bloc/account_bloc.dart';
 import 'package:todo_list/account/models/user_model.dart';
+import 'package:todo_list/root/navigation/routes_names.dart';
 
 import '../../common/components/buttons/primary_button.dart';
 import '../../common/components/form/calendar_text_field.dart';
@@ -48,12 +50,29 @@ class _EditAccountState extends State<EditAccount> {
         mapUser['technologies'] != null ? mapUser['technologies'] : []);
   }
 
+  final AccountService accountService = AccountService();
+  void saveAccount() async {
+    try {
+      Map<String, dynamic> payload = {
+        'technologies': technology,
+        'cooperationStartDate': accountController['cooperationStartDate']?.text,
+        'positions': [accountController['positions']?.text],
+        'email': accountController['email']?.text,
+        'name': accountController['name']?.text,
+        'lastName': accountController['lastName']?.text,
+        'birthDate': accountController['birthDate']?.text
+      };
+      accountBloc.add(UpdateAccount(updatedUser: payload));
+    } catch (e) {
+      print('error edit ${(e as DioErrorWrapper).errorMessage}');
+    }
+  }
+
   late bool isError;
   @override
   void initState() {
     super.initState();
     isError = false;
-
     accountBloc.add(LoadAccount());
   }
 
@@ -66,6 +85,8 @@ class _EditAccountState extends State<EditAccount> {
         builder: (context, state) {
           if (state is AccountLoaded) {
             final user = state.user;
+            print('user.avatarUrl ${user.avatarUrl}');
+
             setForm(user);
             return SingleChildScrollView(
               child: Column(children: [
@@ -76,7 +97,7 @@ class _EditAccountState extends State<EditAccount> {
                   },
                   borderRadius: BorderRadius.circular(100),
                   child: AvatarImage(
-                    url: user.avatarUrl,
+                    url: user.avatarUrl ?? null,
                   ),
                 )),
                 const SizedBox(
@@ -181,7 +202,9 @@ class _EditAccountState extends State<EditAccount> {
                               }
                             });
                             if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.reset();
+                              saveAccount();
+                              context.pop(UserStack.Account);
+
                               //  Navigator.pushNamed(context, '/home');
                             }
                           },

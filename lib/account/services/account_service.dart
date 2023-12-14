@@ -22,4 +22,23 @@ class AccountService {
 
     return user;
   }
+
+  Future updateAccount(Map<String, dynamic> payload) async {
+    final response = await accountApi.updateAccountReq(payload);
+    final data = response.data as Map<String, dynamic>;
+    final UserModel user = UserModel(
+        name: data['name'],
+        email: data['email'],
+        lastName: data['lastName'],
+        avatarUrl: data['avatarUrl'],
+        phoneNumber: data['phoneNumber'],
+        cooperationStartDate: data['cooperationStartDate'],
+        birthDate: data['birthDate'],
+        role: data['role'],
+        positions: data['positions'] != null ? data['positions'][0] : null,
+        technologies: data['technologies'],
+        userProjects: data['userProjects']);
+
+    return user;
+  }
 }

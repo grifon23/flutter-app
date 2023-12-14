@@ -23,10 +23,14 @@ class PreviewAccount extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          Text(
-            '${user.name} ${user.lastName}',
-            style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.w500),
-          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text(
+              '${user.name} ${user.lastName}',
+              style:
+                  const TextStyle(fontSize: 30.0, fontWeight: FontWeight.w500),
+            ),
+          )
         ],
       )),
       const SizedBox(
