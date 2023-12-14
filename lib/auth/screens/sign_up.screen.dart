@@ -59,7 +59,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } catch (e) {
       print('Error in sign up: ${(e as DioErrorWrapper).errorMessage}');
     }
-    print(isError);
   }
 
   @override

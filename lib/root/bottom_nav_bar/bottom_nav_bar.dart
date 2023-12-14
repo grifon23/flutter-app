@@ -22,6 +22,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
       case 1:
         context.go('/settings');
         break;
+      case 2:
+        context.go('/account');
+        break;
       default:
         context.go('/projects');
         break;
@@ -54,8 +57,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icons.home,
               text: 'Projects',
             ),
-            GButton(icon: Icons.people, text: 'Peoples'),
-            // GButton(icon: Icons.settings, text: 'Settings')
+            GButton(icon: Icons.settings, text: 'Settings'),
+            GButton(icon: Icons.account_circle, text: 'Account'),
           ],
           onTabChange: changeTab,
         ),
