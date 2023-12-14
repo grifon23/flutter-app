@@ -10,7 +10,7 @@ class Session {
   });
 }
 
-class AuthApi {
+class AuthApi extends RequestsService {
   RequestsService api = RequestsService();
 
   Future loginReq(String email, String password) async {

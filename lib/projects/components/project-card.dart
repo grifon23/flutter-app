@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_list/root/navigation/routes-names.dart';
-import 'package:todo_list/service/local_storage/local_storage_service.dart';
+import 'package:todo_list/root/navigation/routes_names.dart';
 
 class ProjectCard extends StatelessWidget {
   final String projectName;

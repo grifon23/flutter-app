@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/providers/token.provider.dart';
-import 'package:todo_list/root/navigation/routes-names.dart';
+import 'package:todo_list/root/navigation/routes_names.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({
@@ -17,7 +17,6 @@ class SettingsScreen extends StatelessWidget {
         floatingActionButton: ElevatedButton(
           onPressed: () {
             context.read<TokenProvider>().logout();
-            context.goNamed(AuthStack.SignIn);
           },
           child: Text('drrgg'),
         ),
