@@ -9,6 +9,7 @@ import '../../common/components/form/calendar_text_field.dart';
 import '../../common/components/form/select_field.dart';
 import '../../common/components/form/tags_controll.dart';
 import '../../common/components/form/text_input.dart';
+import '../../common/components/image/avatar_image.dart';
 import '../../service/request/request_service.dart';
 import '../../user/config/user_positions.dart';
 import '../../validators/requre_field.dart';
@@ -40,10 +41,11 @@ class _EditAccountState extends State<EditAccount> {
     Map<String, dynamic> mapUser = user.toMap(); // або будь-який інший ключ
 
     accountController.forEach((key, controller) {
-      controller.text = mapUser[key]?.toString() ?? '';
+      controller.text = mapUser[key].toString() ?? '';
     });
 
-    technology = List<String>.from(mapUser['technologies'] ?? []);
+    technology = List<String>.from(
+        mapUser['technologies'] != null ? mapUser['technologies'] : []);
   }
 
   late bool isError;
@@ -68,27 +70,15 @@ class _EditAccountState extends State<EditAccount> {
             return SingleChildScrollView(
               child: Column(children: [
                 Center(
-                  child: InkWell(
-                      onTap: () {
-                        print('press image');
-                      },
-                      borderRadius: BorderRadius.circular(100),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(
-                                  width: 1, color: Colors.grey.shade200)),
-                          child: user.avatarUrl != null
-                              ? Image.network(
-                                  user.avatarUrl!,
-                                  height: 160.0,
-                                  width: 160.0,
-                                )
-                              : const Icon(
-                                  Icons.account_circle,
-                                  size: 160.0,
-                                ))),
-                ),
+                    child: InkWell(
+                  onTap: () {
+                    print('press image');
+                  },
+                  borderRadius: BorderRadius.circular(100),
+                  child: AvatarImage(
+                    url: user.avatarUrl,
+                  ),
+                )),
                 const SizedBox(
                   height: 30,
                 ),
@@ -165,6 +155,9 @@ class _EditAccountState extends State<EditAccount> {
                         ),
                         const SizedBox(height: 10),
                         SelectControll(
+                          value: state.user.positions != null
+                              ? accountController['positions']?.text
+                              : null,
                           options: userPositions.options,
                           validator: requreField,
                           hintText: 'Select position',

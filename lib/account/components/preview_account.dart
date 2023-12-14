@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/account/models/user_model.dart';
 import 'package:todo_list/common/components/tags/base_tags.dart';
 
+import '../../common/components/image/avatar_image.dart';
 import '../utils/user_positions.dart';
 import '../utils/user_role.dart';
+import 'setting_row.dart';
 
 class PreviewAccount extends StatelessWidget {
   const PreviewAccount({super.key, required this.user});
@@ -15,17 +17,9 @@ class PreviewAccount extends StatelessWidget {
       Center(
           child: Column(
         children: [
-          Container(
-              child: user.avatarUrl != null
-                  ? Image.network(
-                      user.avatarUrl!,
-                      height: 160.0,
-                      width: 160.0,
-                    )
-                  : const Icon(
-                      Icons.account_circle,
-                      size: 160.0,
-                    )),
+          AvatarImage(
+            url: user.avatarUrl,
+          ),
           const SizedBox(
             height: 30,
           ),
@@ -41,71 +35,37 @@ class PreviewAccount extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Row(
-            children: [
-              const Text('Position: '),
-              Text(
-                Positions.positionsLabel[user.positions] ?? 'unknow',
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
+          SettingRow(
+            label: 'Position',
+            value: Positions.positionsLabel[user.positions] ?? 'unknow',
           ),
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              const Text('Email: '),
-              Text(
-                user.email,
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
+          SettingRow(
+            label: 'Email',
+            value: user.email,
           ),
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              const Text('Account type: '),
-              Text(UserRoles.rolesLabel[user.role!] ?? 'unknow',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                  )),
-            ],
+          SettingRow(
+            label: 'Account type',
+            value: UserRoles.rolesLabel[user.role!] ?? 'unknow',
           ),
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              const Text('Date of birth: '),
-              Text(user.birthDate ?? '00/00/0000',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                  )),
-            ],
+          SettingRow(
+            label: 'Date of birth',
+            value: user.birthDate ?? '00/00/0000',
           ),
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              const Text('Start of cooperation: '),
-              Text(user.cooperationStartDate ?? '00/00/0000',
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w500,
-                  )),
-            ],
+          SettingRow(
+            label: 'Start of cooperation',
+            value: user.cooperationStartDate ?? '00/00/0000',
           ),
           const SizedBox(
             height: 10,

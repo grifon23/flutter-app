@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_list/root/navigation/routes_names.dart';
 
 import '../../service/request/request_service.dart';
 import '../bloc/account_bloc.dart';
@@ -7,7 +9,7 @@ import '../components/preview_account.dart';
 import '../services/account_service.dart';
 
 class AccountScreen extends StatefulWidget {
-  AccountScreen({super.key});
+  const AccountScreen({super.key});
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
@@ -38,7 +40,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   child: IconButton(
                     icon: const Icon(Icons.edit_outlined),
                     onPressed: () {
-                      print('press');
+                      context.goNamed(UserStack.EditAccount);
                     },
                   ),
                 ),

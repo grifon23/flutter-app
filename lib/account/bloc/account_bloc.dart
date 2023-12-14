@@ -12,6 +12,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         final user = await accountService.loadAcount();
         emit(AccountLoaded(user: user));
       } catch (e) {
+        print('error in Bloc $e');
         emit(AccountLoadingFailure(exeption: e));
       }
     });
