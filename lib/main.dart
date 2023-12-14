@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(appBarTheme: AppBarTheme(elevation: 0)),
       home: Root(),
     );
   }

@@ -21,7 +21,23 @@ class UserModel {
   final String? cooperationStartDate;
   final String? birthDate;
   final String? role;
-  final List<dynamic>? positions;
+  final String? positions;
   final List<dynamic>? technologies;
   final List<dynamic>? userProjects;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'email': email,
+      'lastName': lastName,
+      'avatarUrl': avatarUrl,
+      'phoneNumber': phoneNumber,
+      'cooperationStartDate': cooperationStartDate,
+      'birthDate': birthDate,
+      'role': role,
+      'positions': positions,
+      'technologies': technologies,
+      'userProjects': userProjects,
+    };
+  }
 }

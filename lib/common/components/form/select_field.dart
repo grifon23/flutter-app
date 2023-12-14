@@ -26,11 +26,14 @@ class _SelectControllState extends State<SelectControll> {
 
   @override
   Widget build(BuildContext context) {
+    print('widget.controller?.text ${widget.controller?.text}');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
           DropdownButtonFormField2<String>(
+            value:
+                widget.controller?.text != null ? widget.controller?.text : '',
             isExpanded: true,
             decoration: InputDecoration(
               filled: true,

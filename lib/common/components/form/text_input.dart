@@ -7,12 +7,14 @@ class BaseTextField extends StatelessWidget {
   final String hintText;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final String? initialValue;
 
   const BaseTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
+    this.initialValue,
     this.validator,
   });
 

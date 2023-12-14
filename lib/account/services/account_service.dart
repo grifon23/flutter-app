@@ -16,7 +16,7 @@ class AccountService {
         cooperationStartDate: data['cooperationStartDate'],
         birthDate: data['birthDate'],
         role: data['role'],
-        positions: data['positions'],
+        positions: data['positions'][0],
         technologies: data['technologies'],
         userProjects: data['userProjects']);
 

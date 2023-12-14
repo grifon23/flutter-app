@@ -45,7 +45,7 @@ class PreviewAccount extends StatelessWidget {
             children: [
               const Text('Position: '),
               Text(
-                Positions.positionsLabel[user.positions?[0]] ?? 'unknow',
+                Positions.positionsLabel[user.positions] ?? 'unknow',
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w500,

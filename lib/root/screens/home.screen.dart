@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/account/screens/account_screen.dart';
+import 'package:todo_list/account/screens/edit_account.dart';
 import 'package:todo_list/projects/screens/projects.screen.dart';
 import 'package:todo_list/providers/token.provider.dart';
 import 'package:todo_list/service/local_storage/local_storage_service.dart';
@@ -20,7 +21,8 @@ class HomeScreenState extends State<HomeScreen> {
   final userNavigatorTabs = [
     const ProjectsScreen(),
     const SettingsScreen(),
-    AccountScreen()
+    AccountScreen(),
+    EditAccount()
   ];
 
   @override
@@ -57,7 +59,8 @@ class HomeScreenState extends State<HomeScreen> {
                 text: 'Projects',
               ),
               GButton(icon: Icons.people, text: 'Peoples'),
-              GButton(icon: Icons.account_circle, text: 'Account')
+              GButton(icon: Icons.account_circle, text: 'Account'),
+              GButton(icon: Icons.edit, text: 'Edit')
             ],
             onTabChange: (index) {
               setState(() {
