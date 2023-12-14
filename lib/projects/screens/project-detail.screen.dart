@@ -9,23 +9,21 @@ class ProjectDetailScreen extends StatelessWidget {
   String? projectName;
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        title: Text("Dadaadada"),
-      ),
-      body: Column(children: [
-        Center(child: Text('Project id: $projectId')),
-        SizedBox(height: 20),
-        Center(child: Text('Project name: $projectName')),
-        SizedBox(height: 100),
-        ElevatedButton(
-            onPressed: () {
-              context.pushNamed(UserStack.Home);
-            },
-            child: Text('Go Back'))
-      ]),
-    ));
-  }
+  Widget build(BuildContext context) => SafeArea(
+          child: Scaffold(
+        appBar: AppBar(
+          title: Text("Dadaadada"),
+        ),
+        body: Column(children: [
+          Center(child: Text('Project id: $projectId')),
+          SizedBox(height: 20),
+          Center(child: Text('Project name: $projectName')),
+          SizedBox(height: 100),
+          ElevatedButton(
+              onPressed: () {
+                context.goNamed(UserStack.Home);
+              },
+              child: Text('Go Back'))
+        ]),
+      ));
 }

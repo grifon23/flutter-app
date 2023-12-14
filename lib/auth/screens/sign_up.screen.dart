@@ -68,6 +68,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ""; //set the initial value of text field
     sigUpController['birthday']?.text = '';
     isError = false;
+    
+    
 
     super.initState();
   }

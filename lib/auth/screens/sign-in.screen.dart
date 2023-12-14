@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/auth/service/auth_service.dart';
 import 'package:todo_list/providers/token.provider.dart';
+import 'package:todo_list/root/navigation/routes-names.dart';
 import 'package:todo_list/service/request/request_service.dart';
 import 'package:todo_list/validators/requre_field.dart';
 
@@ -48,7 +50,7 @@ class SignInScreenState extends State<SignInScreen> {
 
 //register void
   void signUp(BuildContext context) {
-    Navigator.pushNamed(context, '/signUp');
+    context.pushNamed(AuthStack.SignUp);
     print('signUp');
   }
 

@@ -1,4 +1,4 @@
-class AuthStack {
+ class AuthStack {
   static const SignIn = 'signIn';
   static const SignUp = 'signUp';
 }

@@ -7,7 +7,7 @@ import 'package:todo_list/projects/screens/project-detail.screen.dart';
 import 'package:todo_list/projects/screens/projects.screen.dart';
 import 'package:todo_list/providers/token.provider.dart';
 import 'package:todo_list/root/navigation/routes-names.dart';
-import 'package:todo_list/root/screens/home.screen.dart';
+import 'package:todo_list/root/navigation/routes.dart';
 import 'package:todo_list/service/local_storage/local_storage_service.dart';
 import 'package:todo_list/settings/screens/settings.screen.dart';
 
@@ -29,54 +29,12 @@ class Root extends StatelessWidget {
           } else {
             var tokenFromStorage = snapshot.data;
 
-            List<GoRoute> authStackNavGroup = [
-              GoRoute(
-                  name: AuthStack.SignIn,
-                  path: '/signIn',
-                  builder: (context, state) => SignInScreen()),
-              GoRoute(
-                  name: AuthStack.SignUp,
-                  path: '/signUp',
-                  builder: (context, state) => SignUpScreen()),
-            ];
-
-            List<GoRoute> userStackNavGroup = [
-              GoRoute(
-                  name: UserStack.Home,
-                  path: '/home',
-                  builder: (context, state) => HomeScreen()),
-              GoRoute(
-                  name: UserStack.Projects,
-                  path: '/projects',
-                  builder: ((context, state) => ProjectsScreen())),
-              GoRoute(
-                  name: UserStack.ProjectDetail,
-                  path: '/project-detail/:id',
-                  builder: (context, state) => ProjectDetailScreen(
-                      projectId: state.pathParameters['id'],
-                      projectName: state.uri.queryParameters['projectName'])),
-              GoRoute(
-                  path: '/settings',
-                  builder: (context, state) => SettingsScreen()),
-            ];
-
-            GoRouter routers = GoRouter(
-                initialLocation: '/signIn',
-                redirect: (context, state) {
-                  if (tokenFromStorage != null) {
-                    return '/home';
-                  }
-
-                  if (tokenProvider.token != null) {
-                    return '/home';
-                  } else {
-                    return '/signIn';
-                  }
-                },
-                routes: [...authStackNavGroup, ...userStackNavGroup]);
+            final GoRouter appRouter = AppRouter.createRouter(
+              tokenFromStorage: tokenFromStorage,
+            );
 
             return MaterialApp.router(
-              routerConfig: routers,
+              routerConfig: appRouter,
               theme: ThemeData(
                 colorScheme: ColorScheme.light(
                     primary: Colors.grey.shade900,

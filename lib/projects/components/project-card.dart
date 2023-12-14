@@ -17,50 +17,28 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Card(
-        child: InkWell(
-          splashColor: const Color.fromARGB(255, 255, 255, 227),
-          onTap: () {
-            context.pushNamed(UserStack.ProjectDetail,
-                pathParameters: {"id": id},
-                queryParameters: {'projectName': projectName});
-          },
-          child: SizedBox(
-              height: 100,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 40.0,
-                      backgroundColor: Colors.yellowAccent,
-                      child: Text(
-                        firstLetter,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 24.0,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Text(
-                      projectName,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
-                    const Expanded(
-                      child: Text(''),
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_outlined,
-                      size: 24,
-                    )
-                  ],
-                ),
-              )),
+    return ListTile(
+      onTap: () => context.goNamed(UserStack.ProjectDetail,
+          pathParameters: {'id': id},
+          queryParameters: {'projectName': projectName}),
+      title: Text(
+        projectName,
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      ),
+      leading: CircleAvatar(
+        radius: 40.0,
+        backgroundColor: Colors.yellowAccent,
+        child: Text(
+          firstLetter,
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: 24.0,
+          ),
         ),
+      ),
+      trailing: const Icon(
+        Icons.arrow_forward_outlined,
+        size: 24,
       ),
     );
   }
