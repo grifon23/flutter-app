@@ -23,13 +23,11 @@ class TagsControll extends StatefulWidget {
 }
 
 class _TagsControllState extends State<TagsControll> {
-  List<String> _values = [];
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _textEditingController = TextEditingController();
 
   _onDelete(index) {
     setState(() {
-      _values.removeAt(index);
       widget.tags.removeAt(index);
     });
   }
@@ -37,7 +35,6 @@ class _TagsControllState extends State<TagsControll> {
   @override
   void initState() {
     super.initState();
-    _values = widget.tags;
   }
 
   @override
@@ -47,18 +44,18 @@ class _TagsControllState extends State<TagsControll> {
       child: Column(
         children: [
           TagEditor(
-            length: _values.length,
+            length: widget.tags.length,
             controller: _textEditingController,
             focusNode: _focusNode,
             delimiters: [',', ' '],
             hasAddButton: false,
             resetTextOnSubmitted: true,
-            // This is set to grey just to illustrate the `textStyle` prop
+
             textStyle: const TextStyle(color: Colors.grey),
             onSubmitted: (outstandingValue) {
-              setState(() {
-                _values.add(outstandingValue);
-              });
+              // setState(() {
+              //   widget.tags.add(outstandingValue);
+              // });
             },
             minTextFieldWidth: 350.0,
             inputDecoration: InputDecoration(
@@ -84,13 +81,12 @@ class _TagsControllState extends State<TagsControll> {
                 hintStyle: TextStyle(color: Colors.grey.shade500)),
             onTagChanged: (newValue) {
               setState(() {
-                _values.add(newValue);
                 widget.tags.add(newValue);
               });
             },
             tagBuilder: (context, index) => _Chip(
               index: index,
-              label: _values[index],
+              label: widget.tags[index],
               onDeleted: _onDelete,
             ),
             // InputFormatters example, this disallow \ and /

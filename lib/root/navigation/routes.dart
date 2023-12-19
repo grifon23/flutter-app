@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/account/screens/account_screen.dart';
+import 'package:todo_list/account/screens/edit_account.dart';
 import 'package:todo_list/auth/screens/sign-in.screen.dart';
 import 'package:todo_list/auth/screens/sign_up.screen.dart';
 import 'package:todo_list/projects/screens/project-detail.screen.dart';
@@ -64,11 +65,18 @@ class AppRouter {
               builder: (context, state) => const SettingsScreen(),
             ),
             GoRoute(
-              name: UserStack.Account,
-              path: '/account',
-              parentNavigatorKey: _shellNavigatorKey,
-              builder: (context, state) => AccountScreen(),
-            ),
+                name: UserStack.Account,
+                path: '/${UserStack.Account}',
+                parentNavigatorKey: _shellNavigatorKey,
+                builder: (context, state) => const AccountScreen(),
+                routes: [
+                  GoRoute(
+                    name: UserStack.EditAccount,
+                    path: UserStack.EditAccount,
+                    parentNavigatorKey: _shellNavigatorKey,
+                    builder: (context, state) => const EditAccount(),
+                  ),
+                ]),
           ],
         )
       ],

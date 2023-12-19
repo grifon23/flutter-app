@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_list/auth/api/auth_api.dart';
 import 'package:todo_list/auth/service/auth_service.dart';
 import 'package:todo_list/common/components/buttons/primary_button.dart';
 import 'package:todo_list/common/components/form/calendar_text_field.dart';
@@ -54,6 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'password': sigUpController['password']!.text,
         'birthDate': sigUpController['birthDate']!.text
       };
+
       var resp = await authService.signUp(payload);
       context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
     } catch (e) {
@@ -67,8 +67,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ""; //set the initial value of text field
     sigUpController['birthday']?.text = '';
     isError = false;
-    
-    
 
     super.initState();
   }
@@ -173,6 +171,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 10),
                     SelectControll(
+                      value: null,
                       options: userPositions.options,
                       validator: requreField,
                       hintText: 'Select position',
@@ -198,7 +197,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (_formKey.currentState!.validate()) {
                           signUp();
                           _formKey.currentState!.reset();
-                          //  Navigator.pushNamed(context, '/home');
                         }
                       },
                       texContent: 'Register',

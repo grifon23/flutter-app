@@ -79,7 +79,7 @@ class RequestsService {
   Future<Response> patch(String path,
       {required Map<String, dynamic> data}) async {
     try {
-      Response response = await dio.put(
+      Response response = await dio.patch(
         path,
         data: data,
       );
