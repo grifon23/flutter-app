@@ -1,17 +1,17 @@
 class UserModel {
-  UserModel({
-    required this.name,
-    required this.email,
-    required this.lastName,
-    required this.avatarUrl,
-    required this.phoneNumber,
-    required this.cooperationStartDate,
-    required this.birthDate,
-    required this.role,
-    required this.positions,
-    required this.technologies,
-    required this.userProjects,
-  });
+  UserModel(
+      {required this.name,
+      required this.email,
+      required this.lastName,
+      required this.avatarUrl,
+      required this.phoneNumber,
+      required this.cooperationStartDate,
+      required this.birthDate,
+      required this.role,
+      required this.positions,
+      required this.technologies,
+      required this.userProjects,
+      this.id});
 
   final String name;
   final String email;
@@ -24,6 +24,7 @@ class UserModel {
   final String? positions;
   final List<dynamic>? technologies;
   final List<dynamic>? userProjects;
+  final id;
 
   Map<String, dynamic> toMap() {
     return {

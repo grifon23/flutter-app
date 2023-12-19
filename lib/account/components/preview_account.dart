@@ -17,6 +17,9 @@ class PreviewAccount extends StatelessWidget {
       Center(
           child: Column(
         children: [
+          const SizedBox(
+            height: 20,
+          ),
           AvatarImage(
             url: user.avatarUrl,
           ),

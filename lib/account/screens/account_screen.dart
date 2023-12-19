@@ -19,6 +19,13 @@ class _AccountScreenState extends State<AccountScreen> {
   final accountBloc = AccountBloc(accountService: AccountService());
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ModalRoute.of(context)?.isCurrent;
+    accountBloc.add(LoadAccount());
+  }
+
+  @override
   void initState() {
     accountBloc.add(LoadAccount());
     super.initState();

@@ -6,16 +6,14 @@ class AvatarImage extends StatelessWidget {
   final String? url;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: url != null
-            ? Image.network(
-                url!,
-                height: 160.0,
-                width: 160.0,
-              )
-            : const Icon(
-                Icons.account_circle,
-                size: 160.0,
-              ));
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(100),
+      child: url != null
+          ? Image.network(url!, height: 160.0, width: 160.0, fit: BoxFit.cover)
+          : const Icon(
+              Icons.account_circle,
+              size: 160.0,
+            ),
+    );
   }
 }

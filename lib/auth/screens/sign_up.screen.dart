@@ -53,6 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'password': sigUpController['password']!.text,
         'birthDate': sigUpController['birthDate']!.text
       };
+
       var resp = await authService.signUp(payload);
       context.read<TokenProvider>().setIsToken(resp.data['accessToken']);
     } catch (e) {
@@ -196,7 +197,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (_formKey.currentState!.validate()) {
                           signUp();
                           _formKey.currentState!.reset();
-                          //  Navigator.pushNamed(context, '/home');
                         }
                       },
                       texContent: 'Register',

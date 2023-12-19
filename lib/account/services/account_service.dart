@@ -18,7 +18,8 @@ class AccountService {
         role: data['role'],
         positions: data['positions'] != null ? data['positions'][0] : null,
         technologies: data['technologies'],
-        userProjects: data['userProjects']);
+        userProjects: data['userProjects'],
+        id: data['id']);
 
     return user;
   }
