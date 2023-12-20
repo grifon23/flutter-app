@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_list/account/models/user_model.dart';
 import 'package:todo_list/root/navigation/routes_names.dart';
+import 'package:todo_list/store/state.dart';
 
-import '../../service/request/request_service.dart';
-import '../bloc/account_bloc.dart';
 import '../components/preview_account.dart';
-import '../services/account_service.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -16,72 +15,43 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final accountBloc = AccountBloc(accountService: AccountService());
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   ModalRoute.of(context)?.isCurrent;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ModalRoute.of(context)?.isCurrent;
-    accountBloc.add(LoadAccount());
-  }
+  // }
 
   @override
   void initState() {
-    accountBloc.add(LoadAccount());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocBuilder<AccountBloc, AccountState>(
-      bloc: accountBloc,
-      builder: (context, state) {
-        if (state is AccountLoaded) {
-          return SafeArea(
-            child: Stack(
-              children: [
-                PreviewAccount(user: state.user),
-                Positioned(
-                  right: 0,
-                  child: IconButton(
-                    icon: const Icon(Icons.edit_outlined),
-                    onPressed: () {
-                      context.goNamed(UserStack.EditAccount);
-                    },
-                  ),
-                ),
-              ],
+        body: SafeArea(
+      child: StoreConnector<AppState, AppState>(
+        converter: (store) => store.state,
+        builder: (context, vm) => Stack(
+          children: [
+            vm.user == null
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : PreviewAccount(user: vm.user as UserModel),
+            Positioned(
+              right: 0,
+              child: IconButton(
+                icon: const Icon(Icons.edit_outlined),
+                onPressed: () {
+                  context.goNamed(UserStack.EditAccount);
+                },
+              ),
             ),
-          );
-        }
-        if (state is AccountLoadingFailure) {
-          final error = (state.exeption as DioErrorWrapper).errorMessage;
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('$error'),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        accountBloc.add(LoadAccount());
-                      },
-                      child: const Text('Try again'),
-                    )
-                  ]),
-            ),
-          );
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
+          ],
+        ),
+      ),
     ));
   }
 }
