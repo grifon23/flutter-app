@@ -41,9 +41,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         child: Scaffold(
       body: widget.child,
       bottomNavigationBar: Container(
-        color: Colors.black,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
         child: GNav(
-          tabMargin: EdgeInsets.all(8.0),
+          tabMargin: EdgeInsets.only(top: 16),
           rippleColor: Color.fromARGB(255, 80, 80, 19),
           backgroundColor: Colors.black,
           color: Colors.white,
@@ -66,29 +66,3 @@ class _BottomNavBarState extends State<BottomNavBar> {
     ));
   }
 }
-
-
-//  GNav(
-//             tabMargin: EdgeInsets.all(8.0),
-//             rippleColor: Color.fromARGB(255, 80, 80, 19),
-//             backgroundColor: Colors.black,
-//             color: Colors.white,
-//             activeColor: Colors.black,
-//             gap: 8,
-//             tabBackgroundColor: Colors.white,
-//             padding: const EdgeInsets.all(16.0),
-//             selectedIndex: currentIndex,
-//             tabs: const [
-//               GButton(
-//                 icon: Icons.home,
-//                 text: 'Projects',
-//               ),
-//               GButton(icon: Icons.people, text: 'Peoples'),
-//               // GButton(icon: Icons.settings, text: 'Settings')
-//             ],
-//             onTabChange: (index) {
-//               setState(() {
-//                 currentIndex = index;
-//               });
-//             },
-//           ),

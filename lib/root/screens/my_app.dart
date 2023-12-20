@@ -5,8 +5,8 @@ import 'package:todo_list/providers/token.provider.dart';
 import 'package:todo_list/root/navigation/routes.dart';
 import 'package:todo_list/service/local_storage/local_storage_service.dart';
 
-class Root extends StatelessWidget {
-  Root({super.key});
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) => Consumer<TokenProvider>(
@@ -26,11 +26,6 @@ class Root extends StatelessWidget {
 
               return MaterialApp.router(
                 routerConfig: appRouter,
-                theme: ThemeData(
-                  colorScheme: ColorScheme.light(
-                      primary: Colors.grey.shade900,
-                      secondary: Colors.blue.shade500),
-                ),
                 title: 'Flutter Demo',
               );
             }
