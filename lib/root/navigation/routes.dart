@@ -14,9 +14,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppRouter {
-  static GoRouter createRouter({
-    required dynamic tokenFromStorage,
-  }) {
+  static GoRouter createRouter({required dynamic tokenFromStorage}) {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
       initialLocation: '/',
