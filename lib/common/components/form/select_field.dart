@@ -1,7 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/common/typing/option.dart';
-import 'package:todo_list/user/config/user_positions.dart';
 
 class SelectControll extends StatefulWidget {
   const SelectControll({
@@ -10,11 +9,13 @@ class SelectControll extends StatefulWidget {
     required this.hintText,
     this.validator,
     required this.options,
+    required this.value,
   });
 
   final TextEditingController? controller;
   final String hintText;
   final String? Function(String?)? validator;
+  final String? value;
   final List<Option> options;
 
   @override
@@ -26,14 +27,12 @@ class _SelectControllState extends State<SelectControll> {
 
   @override
   Widget build(BuildContext context) {
-    print('widget.controller?.text ${widget.controller?.text}');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Column(
         children: [
           DropdownButtonFormField2<String>(
-            value:
-                widget.controller?.text != null ? widget.controller?.text : '',
+            value: widget.value,
             isExpanded: true,
             decoration: InputDecoration(
               filled: true,
