@@ -4,7 +4,7 @@ import 'package:todo_list/account/screens/account_screen.dart';
 import 'package:todo_list/account/screens/edit_account.dart';
 import 'package:todo_list/auth/screens/sign-in.screen.dart';
 import 'package:todo_list/auth/screens/sign_up.screen.dart';
-import 'package:todo_list/projects/screens/project-detail.screen.dart';
+import 'package:todo_list/projects/screens/project_detail.screen.dart';
 import 'package:todo_list/projects/screens/projects.screen.dart';
 import 'package:todo_list/root/bottom_nav_bar/bottom_nav_bar.dart';
 import 'package:todo_list/root/navigation/routes_names.dart';
